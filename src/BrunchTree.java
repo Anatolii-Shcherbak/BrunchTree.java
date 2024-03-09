@@ -3,7 +3,7 @@ import static java.lang.Integer.parseInt;
 public class BrunchTree {
 
     public static void main(String[] args) {
-        int root=45, temp=0, j =1, num = 0, tl = 0, tr = 0;
+        int root=45, tempr=0, templ = 0,  j =1, num = 0, tl = 0, tlr = 0, tr = 0, trl = 0, contl, countr;
         String t = "";
 
         int[] leafs = {45, 27, 67, 36, 56, 15, 75, 31, 53, 39, 64};
@@ -40,7 +40,6 @@ public class BrunchTree {
                 position[i] += t;
             }
             j=1;
-            temp++;
         }
         for(int i =1; i < leafs.length; i++) {
             for (int k = 3; k < leafs.length- 1; k++) {
@@ -48,19 +47,31 @@ public class BrunchTree {
                 for (int l = 0; l < position[i].length(); l++) {
                     if(position[k].length() < position[i].length()){  break;}
                     if (position[i].charAt(l) == position[k].charAt(l)) {
-                        if(position[k].charAt(l + 1) == 'R'){
-                            tr += 1;
-                        }else {
-                            tl += 1;
+
+                        int cut = position[i].length();
+                        String result = (position[k].substring(cut));
+                        if(l == position[i].length() -1){
+                            if(position[k].charAt(l + 1) == 'R' && (!result.contains("L") || !result.contains("R"))) {
+                            tempr=1;
                         }
+                            if(position[k].charAt(l + 1) == 'L' && (!result.contains("R") || !result.contains("L")))  {
+                                templ=1;
+                            }
+                        }
+
+
+
                     } else {
                         break;
                     }
 
-
                 }
+                tr +=tempr;
+                tl += templ;
+                tempr = 0; templ = 0;
+
             }
-            balancenumber[i] =  tr - tl;
+            balancenumber[i] =   tr - tl;
             tr =0; tl = 0;
         }
 
