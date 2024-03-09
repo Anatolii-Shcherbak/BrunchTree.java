@@ -3,7 +3,7 @@ import static java.lang.Integer.parseInt;
 public class BrunchTree {
 
     public static void main(String[] args) {
-        int root=45, tempr=0, templ = 0,  j =1, num = 0, tl = 0, tlr = 0, tr = 0, trl = 0, contl, countr;
+        int root=45, tempr=0, templ = 0,  j =1, tl = 0,  tr = 0, trR = 0, tlR = 0;
         String t = "";
 
         int[] leafs = {45, 27, 67, 36, 56, 15, 75, 31, 53, 39, 64};
@@ -41,8 +41,8 @@ public class BrunchTree {
             }
             j=1;
         }
-        for(int i =1; i < leafs.length; i++) {
-            for (int k = 3; k < leafs.length- 1; k++) {
+        for(int i =1; i < leafs.length - 1; i++) {
+            for (int k = 3; k < leafs.length; k++) {
                 if(i == k) { k++;}
                 for (int l = 0; l < position[i].length(); l++) {
                     if(position[k].length() < position[i].length()){  break;}
@@ -58,9 +58,6 @@ public class BrunchTree {
                                 templ=1;
                             }
                         }
-
-
-
                     } else {
                         break;
                     }
@@ -68,13 +65,15 @@ public class BrunchTree {
                 }
                 tr +=tempr;
                 tl += templ;
+                if(i == 1){if(tl > tr){tlR = tl;} else tlR = tr;}
+                if(i == 2){if(tl > tr){trR = tl;} else trR = tr;}
                 tempr = 0; templ = 0;
 
             }
             balancenumber[i] =   tr - tl;
             tr =0; tl = 0;
         }
-
+        balancenumber[0] = trR - tlR;
         for(int i =0; i < leafs.length; i++){
                System.out.println(leafs[i] + position[i] + " balance:"  + balancenumber[i]);
         }
