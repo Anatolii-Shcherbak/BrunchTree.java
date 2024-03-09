@@ -1,15 +1,17 @@
+import static java.lang.Integer.parseInt;
+
 public class BrunchTree {
 
     public static void main(String[] args) {
-        int root=45, temp=0, j =1, num = 0;
+        int root=45, temp=0, j =1, num = 0, tl = 0, tr = 0;
         String t = "";
 
         int[] leafs = {45, 27, 67, 36, 56, 15, 75, 31, 53, 39, 64};
         int[] balancenumber = new int[leafs.length];
         String[] position = new String[leafs.length];
 
-        for(int i =0; i < leafs.length; i++){
-            position[i] = String.valueOf(leafs[i]);
+       for(int i =0; i < leafs.length; i++){
+            position[i] = "";
        //     System.out.println(position[i]);
         }
         position[0] += "Root";
@@ -27,45 +29,43 @@ public class BrunchTree {
 
               int minLength = Math.min(position[j].length(), position[i].length());
 
-                for (int k = 0; k < minLength - 2 ; k++) {
-                 if (position[j].charAt(k + 2) != position[i].charAt(k + 2)) {
+                for (int k = 0; k < minLength ; k++) {
+                 if (position[j].charAt(k) != position[i].charAt(k)) {
                     t = "";
                     break;
-                } else if(k + 2 == position[j].length() - 1){
+                } else if(k  == position[j].length() - 1){
                     if (leafs[i] > leafs[j]) {t += "R";} else {t += "L";}
                 }
                 }
-
-
                 position[i] += t;
-
             }
             j=1;
             temp++;
         }
-
-
-        for(int i =1; i < leafs.length; i++){
-            for(int k =10; k >= i ; k-- ) {
-                for (int l = 2; l < position[i].length(); l++) {
+        for(int i =1; i < leafs.length; i++) {
+            for (int k = 3; k < leafs.length- 1; k++) {
+                if(i == k) { k++;}
+                for (int l = 0; l < position[i].length(); l++) {
+                    if(position[k].length() < position[i].length()){  break;}
                     if (position[i].charAt(l) == position[k].charAt(l)) {
-                        temp += 1;
+                        if(position[k].charAt(l + 1) == 'R'){
+                            tr += 1;
+                        }else {
+                            tl += 1;
+                        }
                     } else {
                         break;
-
                     }
-                    num +=temp;
+
+
                 }
-
-                //System.out.println(leafs[i] + "nums" + leafs[k]);
             }
-
-            position[i] += "  balance:" + balancenumber[i];
+            balancenumber[i] =  tr - tl;
+            tr =0; tl = 0;
         }
 
-
         for(int i =0; i < leafs.length; i++){
-               System.out.println(position[i]);
+               System.out.println(leafs[i] + position[i] + " balance:"  + balancenumber[i]);
         }
     }
 
